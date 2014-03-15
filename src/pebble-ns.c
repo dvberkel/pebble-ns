@@ -17,6 +17,12 @@ static void configure_time_layer(TextLayer *time_layer) {
   text_layer_set_text_alignment(time_layer, GTextAlignmentCenter);
 }
 
+static void set_initial_time() {
+  time_t now = time(NULL);
+  struct tm *current_time = localtime(&now);
+  handle_second_tick(current_time, SECOND_UNIT);
+}
+
 static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
@@ -27,9 +33,7 @@ static void window_load(Window *window) {
   configure_time_layer(time_layer);
   layer_add_child(window_layer, text_layer_get_layer(time_layer));
 
-  time_t now = time(NULL);
-  struct tm *current_time = localtime(&now);
-  handle_second_tick(current_time, SECOND_UNIT);
+  set_initial_time();
   tick_timer_service_subscribe(SECOND_UNIT, &handle_second_tick);
 }
 
