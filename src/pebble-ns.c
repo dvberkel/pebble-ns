@@ -10,6 +10,13 @@ static void handle_second_tick(struct tm* tick_time, TimeUnits units_changed) {
   text_layer_set_text(time_layer, time_text);
 }
 
+static void configure_time_layer(TextLayer *time_layer) {
+  text_layer_set_text_color(time_layer, GColorWhite);
+  text_layer_set_background_color(time_layer, GColorClear);
+  text_layer_set_font(time_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
+  text_layer_set_text_alignment(time_layer, GTextAlignmentCenter);
+}
+
 static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
@@ -17,10 +24,7 @@ static void window_load(Window *window) {
   window_set_background_color(window, GColorBlack);
 
   time_layer = text_layer_create((GRect) { .origin = { 0, 72 }, .size = { bounds.size.w, 54 } });
-  text_layer_set_text_color(time_layer, GColorWhite);
-  text_layer_set_background_color(time_layer, GColorClear);
-  text_layer_set_font(time_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
-  text_layer_set_text_alignment(time_layer, GTextAlignmentCenter);
+  configure_time_layer(time_layer);
   layer_add_child(window_layer, text_layer_get_layer(time_layer));
 
   time_t now = time(NULL);
