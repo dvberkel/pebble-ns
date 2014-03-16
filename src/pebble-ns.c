@@ -17,10 +17,10 @@ static void handle_second_tick(struct tm* tick_time, TimeUnits units_changed) {
   text_layer_set_text(time_layer, time_text);
 }
 
-static void configure_layer(TextLayer *layer) {
+static void configure_layer(TextLayer *layer, char *key) {
   text_layer_set_text_color(layer, GColorWhite);
   text_layer_set_background_color(layer, GColorClear);
-  text_layer_set_font(layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
+  text_layer_set_font(layer, fonts_get_system_font(key));
   text_layer_set_text_alignment(layer, GTextAlignmentCenter);
 }
 
@@ -37,11 +37,11 @@ static void window_load(Window *window) {
   window_set_background_color(window, GColorBlack);
 
   departure_layer = text_layer_create((GRect) { .origin = { 0, 0 }, .size = { bounds.size.w, 54 } });
-  configure_layer(departure_layer);
+  configure_layer(departure_layer, FONT_KEY_GOTHIC_28_BOLD);
   layer_add_child(window_layer, text_layer_get_layer(departure_layer));
 
   time_layer = text_layer_create((GRect) { .origin = { 0, 72 }, .size = { bounds.size.w, 54 } });
-  configure_layer(time_layer);
+  configure_layer(time_layer, FONT_KEY_GOTHIC_28_BOLD);
   layer_add_child(window_layer, text_layer_get_layer(time_layer));
 
   handle_departure();
