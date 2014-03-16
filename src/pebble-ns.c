@@ -37,11 +37,11 @@ static void window_load(Window *window) {
   window_set_background_color(window, GColorBlack);
 
   departure_layer = text_layer_create((GRect) { .origin = { 0, 0 }, .size = { bounds.size.w, 54 } });
-  configure_layer(departure_layer, FONT_KEY_GOTHIC_28_BOLD);
+  configure_layer(departure_layer, FONT_KEY_GOTHIC_24_BOLD);
   layer_add_child(window_layer, text_layer_get_layer(departure_layer));
 
   time_layer = text_layer_create((GRect) { .origin = { 0, 72 }, .size = { bounds.size.w, 54 } });
-  configure_layer(time_layer, FONT_KEY_GOTHIC_28_BOLD);
+  configure_layer(time_layer, FONT_KEY_BITHAM_34_MEDIUM_NUMBERS);
   layer_add_child(window_layer, text_layer_get_layer(time_layer));
 
   handle_departure();
