@@ -2,12 +2,19 @@
 
 static Window *window;
 static TextLayer *time_layer;
-static TextLayer *departure_layer;
+static Layer *departure_layer;
+static TextLayer *departure_time_layer;
+static TextLayer *departure_delay_layer;
+static TextLayer *departure_platform_layer;
 
 static void handle_departure(){
-  static char departure_text[] = "12:55 +5 1a";
+  static char departure_time_text[] = "12:55";
+  static char departure_delay_text[] = "+5";
+  static char departure_platform_text[] = "1A";
 
-  text_layer_set_text(departure_layer, departure_text);
+  text_layer_set_text(departure_time_layer, departure_time_text);
+  text_layer_set_text(departure_delay_layer, departure_delay_text);
+  text_layer_set_text(departure_platform_layer, departure_platform_text);
 }
 
 static void handle_second_tick(struct tm* tick_time, TimeUnits units_changed) {
@@ -36,9 +43,20 @@ static void window_load(Window *window) {
 
   window_set_background_color(window, GColorBlack);
 
-  departure_layer = text_layer_create((GRect) { .origin = { 0, 0 }, .size = { bounds.size.w, 54 } });
-  configure_layer(departure_layer, FONT_KEY_GOTHIC_24_BOLD);
-  layer_add_child(window_layer, text_layer_get_layer(departure_layer));
+  departure_layer = layer_create((GRect) { .origin = { 0, 0 }, .size = { bounds.size.w, 54 } });
+  layer_add_child(window_layer, departure_layer);
+
+  departure_time_layer = text_layer_create((GRect) { .origin = { 0, 0 }, .size = { bounds.size.w/3, 54 } });
+  configure_layer(departure_time_layer, FONT_KEY_GOTHIC_24_BOLD);
+  layer_add_child(departure_layer, text_layer_get_layer(departure_time_layer));
+
+  departure_delay_layer = text_layer_create((GRect) { .origin = { bounds.size.w/3, 0 }, .size = { bounds.size.w/3, 54 } });
+  configure_layer(departure_delay_layer, FONT_KEY_GOTHIC_24_BOLD);
+  layer_add_child(departure_layer, text_layer_get_layer(departure_delay_layer));
+
+  departure_platform_layer = text_layer_create((GRect) { .origin = { 2*bounds.size.w/3, 0 }, .size = { bounds.size.w/3, 54 } });
+  configure_layer(departure_platform_layer, FONT_KEY_GOTHIC_24_BOLD);
+  layer_add_child(departure_layer, text_layer_get_layer(departure_platform_layer));
 
   time_layer = text_layer_create((GRect) { .origin = { 0, 72 }, .size = { bounds.size.w, 54 } });
   configure_layer(time_layer, FONT_KEY_BITHAM_34_MEDIUM_NUMBERS);
