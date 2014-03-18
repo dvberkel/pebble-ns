@@ -7,13 +7,15 @@ static TextLayer *departure_time_layer;
 static TextLayer *departure_delay_layer;
 static TextLayer *departure_platform_layer;
 
-static struct DepartureInfo {
+typedef struct DepartureInfo {
   char *time;
   char *delay;
   char *platform;
-} info = { .time = "12:55", .delay = "+5", .platform = "1A"};
+} DepartureInfo;
 
-static void handle_departure(struct DepartureInfo info){
+static DepartureInfo info = { .time = "12:55", .delay = "+5", .platform = "1A"};
+
+static void handle_departure(DepartureInfo info){
   static char departure_time_text[6]; strcpy(departure_time_text, info.time);
   static char departure_delay_text[6]; strcpy(departure_delay_text, info.delay);
   static char departure_platform_text[6]; strcpy(departure_platform_text, info.platform);
