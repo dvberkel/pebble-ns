@@ -7,10 +7,16 @@ static TextLayer *departure_time_layer;
 static TextLayer *departure_delay_layer;
 static TextLayer *departure_platform_layer;
 
-static void handle_departure(){
-  static char departure_time_text[] = "12:55";
-  static char departure_delay_text[] = "+5";
-  static char departure_platform_text[] = "1A";
+static struct DepartureInfo {
+  char time[10];
+  char delay[10];
+  char platform[10];
+} info = { .time = "12:55", .delay = "+5", .platform = "1A"};
+
+static void handle_departure(struct DepartureInfo info){
+  static char departure_time_text[10]; strcpy(departure_time_text, info.time);
+  static char departure_delay_text[10]; strcpy(departure_delay_text, info.delay);
+  static char departure_platform_text[10]; strcpy(departure_platform_text, info.platform);
 
   text_layer_set_text(departure_time_layer, departure_time_text);
   text_layer_set_text(departure_delay_layer, departure_delay_text);
@@ -62,7 +68,7 @@ static void window_load(Window *window) {
   configure_layer(time_layer, FONT_KEY_BITHAM_34_MEDIUM_NUMBERS);
   layer_add_child(window_layer, text_layer_get_layer(time_layer));
 
-  handle_departure();
+  handle_departure(info);
   set_initial_time();
   tick_timer_service_subscribe(SECOND_UNIT, &handle_second_tick);
 }
